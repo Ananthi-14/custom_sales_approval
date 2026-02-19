@@ -1,0 +1,61 @@
+<odoo>
+
+    <!-- ========================= -->
+    <!-- B2B APPROVAL ACTION -->
+    <!-- ========================= -->
+    <record id="action_sale_b2b_approve" model="ir.actions.server">
+        <field name="name">B2B Approval</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+            records.action_b2b_approve()
+        </field>
+    </record>
+
+    <!-- ========================= -->
+    <!-- B2C APPROVAL ACTION -->
+    <!-- ========================= -->
+    <record id="action_sale_b2c_approve" model="ir.actions.server">
+        <field name="name">B2C Approval</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+            records.action_b2c_approve()
+        </field>
+    </record>
+    <record id="view_order_form_inherit_approval" model="ir.ui.view">
+    <field name="name">sale.order.form.approval.inherit</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+
+        <!-- Show Approval State -->
+        <xpath expr="//sheet/group" position="inside">
+            <group string="Approval Info">
+                <field name="approval_state"/>
+                <field name="is_child_so" />
+                <field name="is_master_so"/>
+            </group>
+        </xpath>
+    </field>
+    </record>
+
+    //for child so, master so view in quotations of list view
+    <record id="view_quotation_tree_inherit_approval" model="ir.ui.view">
+    <field name="name">sale.quotation.tree.approval.inherit</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_quotation_tree"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//list/field[@name='state']" position="after">
+            <field name="is_child_so"/>
+            <field name="is_master_so"/>
+        </xpath>
+
+    </field>
+</record>
+</odoo>
